@@ -1,0 +1,26 @@
+<div class="container">
+        <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <h5 class="card-title text-center "><strong>Register</strong></h5>
+                <form  class="form-signin" >
+                  <div class="form-label-group">
+                    <input type="email"  [(ngModel)]="emailId" name="emailId" id="inputEmail" class="form-control" placeholder="Email address"  ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"  required autofocus>
+                    <!-- <label for="inputEmail">Email address</label> -->
+                  </div><br>
+                  <button *ngIf="emailId && !loading" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="activate()">Activate</button>
+                  <button *ngIf="!emailId && !loading" class="btn btn-lg btn-primary btn-block text-uppercase disabled" >Activate</button>
+                  <button *ngIf="loading"  class="btn btn-lg btn-primary btn-block text-uppercase disabled">  <i class="fas fa-sync fa-spin"></i></button>
+
+                </form><br>
+                <div [hidden]="!submitted">
+                  <h6>Activation link sent to registerd Email-Id !</h6>
+                  <button class="btn btn-success" (click)="resent()">re-sent again</button>
+              </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

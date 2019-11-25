@@ -1,0 +1,135 @@
+
+<!-- desktop navbar -->
+<div class="desktop">
+<mat-toolbar color="warn" >
+    <div class="container">
+    <mat-toolbar-row style="margin:20px;">
+        <a [routerLink]="'/home'"><img src="../../../assets/img/core-img/logo.png" alt=""></a>
+        <span class="example-fill-remaining-space"></span>
+        <a *ngIf="!user" mat-button  [routerLink]="'/login'" > Login </a>
+        <a *ngIf="!user" mat-button [routerLink]="'/register'"> Register </a>
+        <a *ngIf="user" mat-button  [routerLink]="'/user'" > User </a>
+        <a *ngIf="user" mat-button  (click)="logout()" > Logout </a>
+        <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        </form>
+        
+    </mat-toolbar-row>
+    </div>
+</mat-toolbar>
+<mat-toolbar class="sticky" >
+    <div class="container">
+            <a mat-button [routerLink]="'/home'" > Home </a>
+            <a mat-button  [matMenuTriggerFor]="pages"> Pages<i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+                <mat-menu #pages="matMenu">
+                                <button mat-menu-item [routerLink]="'/home'">Home</button>
+                                <button mat-menu-item [routerLink]="'/Pages'">Categories</button>
+                                <button mat-menu-item [routerLink]="'/single-page'">Single Articles</button>
+                                <button mat-menu-item [routerLink]="'/about'">About us</button>
+                                <button mat-menu-item [routerLink]="'/contact'">Contact Us</button>
+                    <button mat-menu-item [matMenuTriggerFor]="dropdown">Dropdown</button>
+                </mat-menu>
+                        <mat-menu #dropdown="matMenu">
+                                        <button mat-menu-item [routerLink]="'/home'">Home</button>
+                                        <button mat-menu-item [routerLink]="'/Pages'">Categories</button>
+                                        <button mat-menu-item [routerLink]="'/single-page'">Single Articles</button>
+                                        <button mat-menu-item [routerLink]="'/about'">About us</button>
+                                        <button mat-menu-item [routerLink]="'/contact'">Contact Us</button>
+                        </mat-menu>
+
+            <a mat-button [matMenuTriggerFor]="Megamenu"  > Mega Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                <mat-menu #Megamenu="matMenu">
+                                <button mat-menu-item [routerLink]="'/home'">Home</button>
+                                <button mat-menu-item [routerLink]="'/Pages'">Categories</button>
+                                <button mat-menu-item [routerLink]="'/single-page'">Single Articles</button>
+                                <button mat-menu-item [routerLink]="'/about'">About us</button>
+                                <button mat-menu-item [routerLink]="'/contact'">Contact Us</button>
+                        <button mat-menu-item [matMenuTriggerFor]="dropdown">Dropdown</button>
+                </mat-menu>
+                  
+            <a mat-button [routerLink]="'/Politics'"> Politics </a>
+            <a mat-button [routerLink]="'/Breaking'" > Breaking News </a>
+            <a mat-button [routerLink]="'/Business'"> Business </a>
+            <a mat-button [routerLink]="'/Technology'" > Technology </a>
+            <a mat-button [routerLink]="'/Health'"> Health </a>
+            <a mat-button [routerLink]="'/Travel'" > Travel </a>
+            <a mat-button [routerLink]="'/Sports'"> Sports </a>
+            <a mat-button [routerLink]="'/Contact'" > Contact </a>
+     </div>
+</mat-toolbar>
+</div>
+
+
+<!-- mobile navbar -->
+
+
+<div class="mobile " >
+
+<mat-toolbar  color="warn">
+        <span class="example-fill-remaining-space"></span>
+        <a *ngIf="!user"  (click)="sidenav.close()" mat-button  [routerLink]="'/login'" > Login </a>
+        <a *ngIf="!user"  (click)="sidenav.close()" mat-button [routerLink]="'/register'"> Register </a>
+        <a *ngIf="user"  (click)="sidenav.close()" mat-button  [routerLink]="'/user'" > User </a>
+        <a *ngIf="user"  (click)="sidenav.close()" mat-button  (click)="logout()" > Logout </a>
+        <form   class="form-inline my-2 my-lg-0">
+                <input style="margin-left: 10px;" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        </form>
+</mat-toolbar>
+<mat-toolbar class="mobile-sticky"  color="primary"  >
+        <a [routerLink]="'/home'"><img style="width:90%;" src="../../../assets/img/core-img/logo.png" alt=""></a>
+        <span class="example-fill-remaining-space"></span>
+        <button mat-icon-button>
+                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+              </button>
+</mat-toolbar>
+</div>
+
+
+<mat-sidenav-container>
+        <mat-sidenav #sidenav>
+          <mat-nav-list>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/home'"> Home </a>
+                <a mat-list-item  [matMenuTriggerFor]="pages" > Pages <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                        <mat-menu  #pages="matMenu">
+                                        <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/home'">Home</button>
+                                        <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/Pages'">Categories</button>
+                                        <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/single-page'">Single Articles</button>
+                                        <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/about'">About us</button>
+                                        <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/contact'">Contact Us</button>
+                                <button mat-menu-item [matMenuTriggerFor]="dropdown">Dropdown</button>
+                            </mat-menu>
+                                    <mat-menu #dropdown="matMenu">
+                                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/home'">Home</button>
+                                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/Pages'">Categories</button>
+                                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/single-page'">Single Articles</button>
+                                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/about'">About us</button>
+                                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/contact'">Contact Us</button>
+                                    </mat-menu>
+                <a mat-list-item [matMenuTriggerFor]="megamenu"> Mega Menu <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+                        <mat-menu  #megamenu="matMenu">
+                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/home'">Home</button>
+                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/Pages'">Categories</button>
+                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/single-page'">Single Articles</button>
+                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/about'">About us</button>
+                                <button mat-menu-item (click)="sidenav.close()"  [routerLink]="'/contact'">Contact Us</button>
+                                <button mat-menu-item [matMenuTriggerFor]="dropdown">Dropdown</button>
+                            </mat-menu>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Politics'"> Politics </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Breaking'" > Breaking News </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Business'"> Business </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Technology'" > Technology </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Health'"> Health </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Travel'" > Travel </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Sports'"> Sports </a>
+                <a mat-list-item (click)="sidenav.close()"  [routerLink]="'/Contact'" > Contact </a>
+                <a mat-list-item (click)="sidenav.close()"  >Close</a>
+      
+          </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <div style="height: 88vh;">
+      
+            <router-outlet></router-outlet>
+          </div>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
