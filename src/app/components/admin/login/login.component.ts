@@ -9,7 +9,7 @@ import { Login } from '../../../models/login';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
+  error: boolean;
   loading: boolean;
   login: Login = new Login();
   constructor(private router: Router,
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loading= false;
+    this.error = false;
   }
 
   signin(){
@@ -31,7 +32,12 @@ export class LoginComponent implements OnInit {
     this.login = new Login();
     this.goToUser();
   },
-   error => console.log(error));
+  
+   error =>  this.error =true);
+  
+  //  console.log("error");
+  //  this.router.navigateByUrl('/login');
+
 
 }
 goToUser() {

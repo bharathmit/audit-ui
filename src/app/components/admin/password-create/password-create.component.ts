@@ -13,6 +13,7 @@ export class PasswordCreateComponent implements OnInit {
   password: string;
   emailId: string;
   url: string;
+  loading: boolean;
 
 constructor(private router: Router,
     private loginservice: AuthenticationService,
@@ -26,13 +27,13 @@ constructor(private router: Router,
 
     ngOnInit() {
       this.submitted= false;
-      if(this.url.includes('account/confirm-account?token')){
+      // if(this.url.includes('account/confirm-account?token')){
         this.emailverify()
-      }
-      if(this.url.includes('account/confirm-password?token')){
+      // }
+      // if(this.url.includes('account/confirm-password?token')){
         this.passwordverify()
-      }
-      
+      // }
+      this.loading =false;
     }
   
     emailverify() {
@@ -63,6 +64,7 @@ constructor(private router: Router,
     }
   
     passwordcreate() {
+      this.loading = true;
       console.log(this.password,this.emailId)
       this.loginservice.passwordcreate(this.password,this.emailId)
         .subscribe(data => {

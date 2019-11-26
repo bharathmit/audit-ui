@@ -1,10 +1,20 @@
-.example-fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
+.bg-company-red {
+    background-color: red !important;
+}
+.bg-company-white {
+    background-color: white !important;
+}
+.bg-company-blue {
+    background-color: #343a40 !important;
+}
+mat-sidenav-content {
+    height: 100vh;
+  }
+ .example-fill-remaining-space {
+   
     flex: 1 1 auto;
   }
   a {
-    /* color: white; */
     text-decoration: none;
 }
 
@@ -17,24 +27,6 @@ a:hover
 
 
 
- ::ng-deep .sticky{
-    top:0;
-   z-index: 998;
-   position: sticky;
-   background-color: white !important;
-
- }
- ::ng-deep .mobile-sticky{
-    top:0;
-   z-index: 998;
- 
-   position: sticky;
-  position: -webkit-sticky;
-   background-color: #343a40 !important;
-
- }
-
-
 
  mat-sidenav, 
 mat-sidenav.mat-locked-open, 
@@ -42,23 +34,9 @@ mat-sidenav.mat-closed.md-locked-open-add-active {
     min-width: 100px !important;
     width: 85vw !important;
     max-width: 400px !important;
-} 
+}  
 
- /* ::ng-deep .sticky{
-   margin-top:55px !important;
- }
  
- ::ng-deep .sticky{
-       z-index: 999;
-       width:100vw;
-       position: fixed  !important;
-       background-color: red !important;
- }
- ::ng-deep .sticky{
-     position: relative !important;
-     margin-top:55px;
- } */
-
 
   /* mobile responsive */
 @media(max-width:1000px){

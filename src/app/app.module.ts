@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { ForgotComponent } from './components/admin/forgot/forgot.component';
 import { PasswordCreateComponent } from './components/admin/password-create/password-create.component';
 import { UserComponent } from './components/admin//user/user.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { UserComponent } from './components/admin//user/user.component';
     ForgotComponent,
     PasswordCreateComponent,
     UserComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
