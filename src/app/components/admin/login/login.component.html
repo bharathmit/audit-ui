@@ -1,41 +1,39 @@
 <div class="container">
-        <div class="row">
-          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
-              <div *ngIf="!error" class="card-body">
-                <h5 class="card-title text-center "><strong>Login</strong></h5>
-                <form class="form-signin"  (ngSubmit)="signin()">
-                  <div class="form-label-group">
-                    <input type="email" [(ngModel)]="login.emailId" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                    <!-- <label for="inputEmail">Email address</label> -->
-                  </div>
-    
-                  <div class="form-label-group">
-                    <input type="password" [(ngModel)]="login.password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <!-- <label for="inputPassword">Password</label> -->
-                  </div>
-    
-                  <div class="text-muted">
-                    <label  (click)="forgot()" >Forgot password?</label>
-                  </div><br>
-                  <button *ngIf="!loading" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">submit</button>
-                  <button *ngIf="loading"  class="btn btn-lg btn-primary btn-block text-uppercase disabled">  <i class="fas fa-sync fa-spin"></i>
-                  </button>
+                <div *ngIf="!error" class="card-body">
+                    <h5 class="card-title text-center "><strong>Login</strong></h5>
+                    <form class="form-signin">
+                        <div class="form-label-group">
 
-                  <!-- <hr class="my-4">
-                  <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-                  <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button> -->
-                </form>
-               
-              </div>
-             
+                            <input type="text" [(ngModel)]="login.emailId" name="emailId" id="inputEmail" class="form-control" placeholder="yourname@example.com" tooltip="Enter valid email" placement="top" show-delay="500" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                                #emailId="ngModel">
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" [(ngModel)]="login.password" name="password" id="inputPassword" class="form-control" placeholder="Password" tooltip="One Caps letter, One small letter , One number and One symbol" placement="top" show-delay="500" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"
+                                #password="ngModel">
+                        </div>
+
+                        <div class="text-muted">
+                            <label (click)="forgot()">Forgot password?</label>
+                        </div><br>
+                        <button *ngIf="emailId.valid && password.valid" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" data-toggle="tooltip" data-placement="top" title="Tooltip on top" (click)="signin()">submit</button>
+                        <button *ngIf="!emailId.valid || !password.valid" class="btn btn-lg btn-primary btn-block text-uppercase disabled" data-toggle="tooltip" data-placement="top" title="Tooltip on top">submit</button>
+
+
+                    </form>
+
+                </div>
+
 
             </div>
             <div *ngIf="error" class="alert alert-danger" role="alert">
-                Error! Login failed <br>
-                Please try again later.
-              </div>
-          </div>
+                Error! Login failed <br> Please try again later.
+            </div>
         </div>
-      </div><br><br><br><br>
-   
+    </div>
+</div>
+
+<br><br><br><br>

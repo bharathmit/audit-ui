@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotComponent },
   { path: 'user', component: UserComponent },
-  { path: 'password-create', component: PasswordCreateComponent },
+  { path: 'account/confirm-account',  component: PasswordCreateComponent },
+  { path: 'account/confirm-password',  component: PasswordCreateComponent }  // { path: '*',}
 
 
 ];

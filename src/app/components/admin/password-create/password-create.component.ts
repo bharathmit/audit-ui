@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AuthenticationService } from '../../../services/authentication.service';
+import { AuthenticationService } from '../../../services/authSerivce/authentication.service';
+import { LoaderService } from '../../../services/loaderService/loader.service';
+import { ErrorShowingService } from 'src/app/services/errorService/error-showing.service';
 
 @Component({
   selector: 'app-password-create',
@@ -14,10 +16,14 @@ export class PasswordCreateComponent implements OnInit {
   emailId: string;
   url: string;
   loading: boolean;
+  message:string;
 
 constructor(private router: Router,
     private loginservice: AuthenticationService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private loaderService: LoaderService,
+    private errorService: ErrorShowingService
+    ) {
       this.activatedRoute.queryParams.subscribe((params: Params) => {
        this.token=params['token'];
         console.log(params['token']);
@@ -26,13 +32,15 @@ constructor(private router: Router,
     }
 
     ngOnInit() {
-      this.submitted= false;
-      // if(this.url.includes('account/confirm-account?token')){
+      window.scrollTo(0, 0)
+
+      this.submitted= true;
+      if(this.url.includes('account/confirm-account?token')){
         this.emailverify()
-      // }
-      // if(this.url.includes('account/confirm-password?token')){
+      }
+      if(this.url.includes('account/confirm-password?token')){
         this.passwordverify()
-      // }
+      }
       this.loading =false;
     }
   
@@ -42,10 +50,17 @@ constructor(private router: Router,
           console.log('data')
           this.emailId=data['emailId'];
           this.submitted = true;
+          this.loaderService.hide();
+
+
         }
         , error =>{
           this.submitted = false;
-          console.log(error)
+          this.loaderService.hide();
+
+          console.log(error.error.message);
+          this.message = error.error.message;
+          this.errorService.modal(this.message);
         } );
     }
   
@@ -56,23 +71,38 @@ constructor(private router: Router,
           console.log('data')
           this.emailId=data['emailId'];
           this.submitted = true;
+          this.loaderService.hide();
+
         }
         , error =>{
           this.submitted = false;
-          console.log(error)
+          this.loaderService.hide();
+
+          console.log(error.error.message);
+          this.message = error.error.message;
+          this.errorService.modal(this.message);
         } );
     }
   
     passwordcreate() {
       this.loading = true;
+      this.loaderService.show();
       console.log(this.password,this.emailId)
       this.loginservice.passwordcreate(this.password,this.emailId)
-        .subscribe(data => {
-          console.log(data)
+        .subscribe((data) => {
+          console.log(data);
+          this.loaderService.hide();
           alert("your password has been changed successfully")
           this.router.navigate(['login']);
         }
-        , error => console.log(error));
+        , (error) => {
+          this.loaderService.hide();
+          console.log(error.error.message);
+          this.message = error.error.message;
+          this.errorService.modal(this.message);
+          this.router.navigate(['login']);
+        
+        });
     }
 
 }

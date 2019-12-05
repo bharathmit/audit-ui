@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authSerivce/authentication.service';
 import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
 
@@ -21,6 +21,9 @@ export class NavbarComponent implements OnInit {
                 
 
   ngOnInit() {
+    window.scrollTo(0, 0)
+
+
     this.authService.currentUser
     .subscribe(res => this.user = res);
     console.log(this.user);           

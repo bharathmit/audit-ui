@@ -1,6 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -11,6 +12,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers:[{provide: MatDialogRef, useValue: {}}]
+
     }).compileComponents();
   }));
 

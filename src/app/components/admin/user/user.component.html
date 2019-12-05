@@ -1,53 +1,317 @@
 <br>
+
+
 <div class="container">
-<div class="card mt-4">
-    <h4 class="card-header">You're logged in with GST App!!</h4>
-    <div class="card-body">
-        <h6>Users from secure api end point</h6>
-        
-        email id : {{user.user.emailId}} 
-        <br>
-        user name : {{user.user.firstName}}
-    </div>
-    
-    <br>
-</div>
-<div class="card mt-4">
-        <h4 class="card-header">Users List</h4>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <!-- <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-        </ng-container> -->
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      </div>
+    <mat-tab-group animationDuration="0ms">
+        <mat-tab *ngIf="!edit" label="Profile"><br><br>
+
+            <mat-card class="mt-4">
+                <mat-card-header>
+                    <mat-icon class="text-muted" (click)="editMode()">
+                        <i class="fas fa-edit"></i>
+                    </mat-icon>
+
+                    <mat-card-title>You're logged in with GST App </mat-card-title>
+
+                </mat-card-header>
+                <hr>
+                <mat-card-content>
+                    <h6>Users from secure api end point</h6>
+
+                    Email id : <b>{{user.user.emailId}}</b>
+                    <br> User name : <b>{{user.user.firstName}}</b>
+                </mat-card-content>
+
+            </mat-card><br>
+
+
+
+        </mat-tab>
+        <mat-tab *ngIf="edit" label="Update Profile"><br><br>
+            <div class="row custom-wrapper">
+                <div class="col-md-12">
+
+                    <!-- Form starts -->
+                    <form [formGroup]="registrationForm">
+
+                        <div class="group-gap">
+
+                            <!-- Upload image -->
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+                                    <label for="imageUpload" *ngIf="editFile" [ngClass]="['custom-label', 'upload-image']"></label>
+                                    <label *ngIf="removeUpload" [ngClass]="['custom-label', 'remove-image']" (click)="removeUploadedFile()"></label>
+                                </div>
+                                <div class="avatar-preview">
+                                    <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Full name -->
+                            <div formGroupName="fullName">
+                                <div class="mb-3">
+                                    <label [ngClass]="{'error': submitted && myForm.fullName.controls.firstName.errors}">
+                                First name</label>
+                                    <input type="text" class="form-control" formControlName="firstName" [ngClass]="{'error': submitted && myForm.fullName.controls.firstName.errors}">
+                                    <!-- error block -->
+                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.required">
+                                        <sup>*</sup>Enter your name
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.minlength">
+                                        <sup>*</sup>Name must be 2 characters long
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.pattern">
+                                        <sup>*</sup>No special charcter allowed
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!-- DOB -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.dob.errors}">Date of Birth</label>
+                                <input type="date" class="form-control" formControlName="dob" [ngClass]="{'error': submitted && myForm.dob.errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.dob.errors?.required">
+                                    <sup>*</sup>Please enter your date of birth
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.dob.errors?.pattern">
+                                    <sup>*</sup>Please enter valid date of birth
+                                </div>
+                            </div>
+
+                            <!-- father/mother/husband -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.guardian.errors}">
+                                            Father/Mother/Husband name</label>
+                                <input type="text" class="form-control" formControlName="guardian" [ngClass]="{'error': submitted && myForm.guardian.errors}">
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.guardian.errors?.required">
+                                    <sup>*</sup>Enter your father/mother/husband
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.guardian.errors?.minlength">
+                                    <sup>*</sup>Name must be 2 characters long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.guardian.errors?.pattern">
+                                    <sup>*</sup>No special charcter allowed
+                                </div>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="group-gap">
+                                <h5 class="mb-3">Gender</h5>
+                                <div class="d-block my-3">
+                                    <div class="custom-control custom-radio">
+                                        <input id="male" type="radio" class="custom-control-input" name="gender" formControlName="gender" value="male" checked>
+                                        <label class="custom-control-label" for="male">Male</label>
+                                    </div>
+
+                                    <div class="custom-control custom-radio">
+                                        <input id="female" type="radio" class="custom-control-input" name="gender" formControlName="gender" value="female">
+                                        <label class="custom-control-label" for="female">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- martial status -->
+                            <div class="group-gap">
+                                <h5 class="mb-3">Martial Status</h5>
+                                <div class="d-block my-3">
+                                    <div class="custom-control custom-radio">
+                                        <input id="Married" type="radio" class="custom-control-input" name="Martial" formControlName="Martial" value="Married" checked>
+                                        <label class="custom-control-label" for="male">Married</label>
+                                    </div>
+
+                                    <div class="custom-control custom-radio">
+                                        <input id="Un-Married" type="radio" class="custom-control-input" name="Martial" formControlName="Martial" value="Un-Married">
+                                        <label class="custom-control-label" for="female">Un-Married</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GSTP Number -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.gstpNumber.errors}">GSTP Number</label>
+                                <input type="text" class="form-control" formControlName="gstpNumber" [ngClass]="{'error': submitted && myForm.gstpNumber.errors}">
+
+                                <!-- error block -->
+
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.gstpNumber.errors?.required">
+                                    <sup>*</sup>Please enter your GSTP number
+                                </div>
+
+                            </div>
+
+
+                            <!-- Email -->
+                            <!-- <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.email.errors}">Email</label>
+                                <input type="email" class="form-control" formControlName="email" (input)="user.email">
+
+                                error block
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.required">
+                                    <sup>*</sup>Please enter your email
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.pattern">
+                                    <sup>*</sup>Please enter valid email
+                                </div>
+                            </div> -->
+
+
+                            <!-- Phone number -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">Phone Number</label>
+                                <input type="text" class="form-control" formControlName="phoneNumber" [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.maxLength">
+                                    <sup>*</sup>Phone number must be 10 digit long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.required">
+                                    <sup>*</sup>Please enter your phone number
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.pattern">
+                                    <sup>*</sup>Please enter valid phone number
+                                </div>
+                            </div>
+
+                            <!-- Qualification -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.qualification.errors}">
+                                            Qualification</label>
+                                <input type="text" class="form-control" formControlName="qualification" [ngClass]="{'error': submitted && myForm.qualification.errors}">
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.qualification.errors?.required">
+                                    <sup>*</sup>Enter your Qualification
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.qualification.errors?.minlength">
+                                    <sup>*</sup>Name must be 2 characters long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.qualification.errors?.pattern">
+                                    <sup>*</sup>No special charcter allowed
+                                </div>
+                            </div>
+
+                            <!-- Existing Member -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.ExistingMember.errors}">
+                                            Existing Membership in any</label>
+                                <input type="text" class="form-control" formControlName="ExistingMember" [ngClass]="{'error': submitted && myForm.ExistingMember.errors}">
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.ExistingMember.errors?.required">
+                                    <sup>*</sup>Enter your Existing Member
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.ExistingMember.errors?.minlength">
+                                    <sup>*</sup>Name must be 2 characters long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.ExistingMember.errors?.pattern">
+                                    <sup>*</sup>No special charcter allowed
+                                </div>
+                            </div>
+
+                            <!-- Membership Number -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.membershipNo.errors}">Membership No.</label>
+                                <input type="text" class="form-control" formControlName="membershipNo" [ngClass]="{'error': submitted && myForm.membershipNo.errors}">
+
+                                <!-- error block -->
+
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.membershipNo.errors?.required">
+                                    <sup>*</sup>Please enter your Membership Number
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="group-gap" formGroupName="address">
+                            <h5 class="mb-3">Address</h5>
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">Street</label>
+                                <input type="text" class="form-control" formControlName="street" [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.street.errors?.required">
+                                    <sup>*</sup>Please enter your street
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">City</label>
+                                <input type="text" class="form-control" formControlName="city" [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.city.errors?.required">
+                                    <sup>*</sup>Please enter your street
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                        <br>
+
+                        <!-- Add Super Powers Dynamically-->
+                        <div class="group-gap" formArrayName="addDynamicElement">
+
+
+                            <!-- Submit Button -->
+                            <button type="submit" style="float: left;" class="btn btn-secondary btn-lg  text-uppercase" (click)="cancelEditMode()">cancel</button>
+
+                            <button type="submit" style="float: right;" class="btn btn-primary btn-lg  text-uppercase" (click)="onSubmit()">Submit</button>
+
+                        </div>
+
+                    </form>
+                    <!-- Form ends -->
+
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Search Users"><br><br>
+            <div class="card mt-4">
+                <mat-toolbar>Users List
+                    <span class="example-fill-remaining-space"></span>
+
+                    <form class="form-inline my-2 my-lg-0">
+                        <input style="margin-left: 5px;" name="search" class="form-control mr-sm-2" type="search" placeholder="Search Users" [(ngModel)]="searchText" aria-label="Search">
+                    </form>
+                </mat-toolbar>
+                <div class="table-responsive">
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Firstname</th>
+                                <th scope="col">email</th>
+                                <th scope="col">GST</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let element of displayedColumns | filter : {userId:searchText, firstName:searchText, emailId:searchText, gstpNumber:searchText}">
+                            <tr>
+                                <th scope="row">{{element.userId}}</th>
+                                <td>{{element.firstName}}</td>
+                                <td>{{element.emailId}}</td>
+                                <td>{{element.gstpNumber}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
 </div>
 
 

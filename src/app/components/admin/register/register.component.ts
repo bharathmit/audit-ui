@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
-import { AuthenticationService } from '../../../services/authentication.service';
+import { AuthenticationService } from '../../../services/authSerivce/authentication.service';
+import { LoaderService } from '../../../services/loaderService/loader.service';
+import { ErrorShowingService } from 'src/app/services/errorService/error-showing.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,19 +14,32 @@ export class RegisterComponent implements OnInit {
   emailId: string;
   submitted: boolean;
   loading: boolean = false;
-  constructor(private router: Router, private loginservice: AuthenticationService) { }
+  message: string;
+  constructor(private router: Router, private loginservice: AuthenticationService,
+        private loaderService: LoaderService,
+        private errorService: ErrorShowingService
+        ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0)
+
     this.submitted = false;
   }
 
   activate() {
-    this.loading = true;
+    this.loaderService.show();
     this.loginservice.activate(this.emailId)
-      .subscribe(data => {
+      .subscribe((data) => {
         console.log(data);
         this.submitted = true;
-      }, error => console.log(error));
+        this.loaderService.hide();
+
+      }, (error) =>{
+         console.log(error);
+         this.loaderService.hide();
+         this.message = error.error.message;
+         this.errorService.modal(this.message);
+      })
   }
 
   resent() {

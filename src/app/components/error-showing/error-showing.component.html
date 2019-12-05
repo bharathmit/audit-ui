@@ -1,0 +1,8 @@
+<mat-dialog-content>
+    <h4 style="color: red;">ERROR!</h4><br>
+    <p><strong>{{data.message}}</strong></p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="right">
+    <button mat-raised-button class="btn btn-secondary" (click)="retry()" tabindex="-1">Retry</button>
+</mat-dialog-actions>
