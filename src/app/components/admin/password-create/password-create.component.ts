@@ -14,6 +14,7 @@ export class PasswordCreateComponent implements OnInit {
   submitted:boolean;
   password: string;
   emailId: string;
+  password1:string;
   url: string;
   loading: boolean;
   message:string;

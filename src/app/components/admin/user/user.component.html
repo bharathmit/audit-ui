@@ -9,8 +9,12 @@
 
             <mat-card class="mt-4">
                 <mat-card-header>
-                    <mat-icon class="text-muted" (click)="editMode()">
-                        <i class="fas fa-edit"></i>
+                    <mat-icon class="text-muted">
+                        <i [matMenuTriggerFor]="dropdown" class="fas fa-edit"></i>
+                        <mat-menu #dropdown="matMenu">
+                            <button mat-menu-item (click)="updateProfile()">update profile</button>
+                            <button mat-menu-item (click)="addUser()">Add User</button>
+                        </mat-menu>
                     </mat-icon>
 
                     <mat-card-title>You're logged in with GST App </mat-card-title>
@@ -51,25 +55,67 @@
                                 </div>
                             </div>
 
-                            <!-- Full name -->
-                            <div formGroupName="fullName">
-                                <div class="mb-3">
-                                    <label [ngClass]="{'error': submitted && myForm.fullName.controls.firstName.errors}">
+                            <!-- First name -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.firstName.errors}">
                                 First name</label>
-                                    <input type="text" class="form-control" formControlName="firstName" [ngClass]="{'error': submitted && myForm.fullName.controls.firstName.errors}">
-                                    <!-- error block -->
-                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.required">
-                                        <sup>*</sup>Enter your name
-                                    </div>
-                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.minlength">
-                                        <sup>*</sup>Name must be 2 characters long
-                                    </div>
-                                    <div class="invalid-feedback" *ngIf="submitted && myForm.fullName.controls.firstName.errors?.pattern">
-                                        <sup>*</sup>No special charcter allowed
-                                    </div>
+                                <input type="text" class="form-control" formControlName="firstName" [ngClass]="{'error': submitted && myForm.firstName.errors}">
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.firstName.errors?.required">
+                                    <sup>*</sup>Enter your First name
                                 </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.firstName.errors?.minlength">
+                                    <sup>*</sup>Name must be 2 characters long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.firstName.errors?.pattern">
+                                    <sup>*</sup>No special character allowed
+                                </div>
+                            </div>
+
+                            <!-- last name -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.lastName.errors}">
+                                    Last name</label>
+                                <input type="text" class="form-control" formControlName="lastName" [ngClass]="{'error': submitted && myForm.lastName.errors}">
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.lastName.errors?.pattern">
+                                    <sup>*</sup>No special character allowed
+                                </div>
+                            </div>
 
 
+
+
+
+                            <!-- Phone number -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">Phone Number</label>
+                                <input type="text" class="form-control" formControlName="phoneNumber" [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.maxLength">
+                                    <sup>*</sup>Phone number must be 10 digit long
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.required">
+                                    <sup>*</sup>Please enter your phone number
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.pattern">
+                                    <sup>*</sup>Please enter valid phone number
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label [ngClass]="{'error': submitted && myForm.email.errors}">Email</label>
+                                <input type="email" class="form-control" formControlName="email" (input)="user.email">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.required">
+                                    <sup>*</sup>Please enter your email
+                                </div>
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.pattern">
+                                    <sup>*</sup>Please enter valid email
+                                </div>
                             </div>
 
                             <!-- DOB -->
@@ -86,12 +132,13 @@
                                 </div>
                             </div>
 
+
                             <!-- father/mother/husband -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label [ngClass]="{'error': submitted && myForm.guardian.errors}">
                                             Father/Mother/Husband name</label>
                                 <input type="text" class="form-control" formControlName="guardian" [ngClass]="{'error': submitted && myForm.guardian.errors}">
-                                <!-- error block -->
+                                error block
                                 <div class="invalid-feedback" *ngIf="submitted && myForm.guardian.errors?.required">
                                     <sup>*</sup>Enter your father/mother/husband
                                 </div>
@@ -101,7 +148,7 @@
                                 <div class="invalid-feedback" *ngIf="submitted && myForm.guardian.errors?.pattern">
                                     <sup>*</sup>No special charcter allowed
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Gender -->
                             <div class="group-gap">
@@ -125,12 +172,12 @@
                                 <div class="d-block my-3">
                                     <div class="custom-control custom-radio">
                                         <input id="Married" type="radio" class="custom-control-input" name="Martial" formControlName="Martial" value="Married" checked>
-                                        <label class="custom-control-label" for="male">Married</label>
+                                        <label class="custom-control-label" for="Married">Married</label>
                                     </div>
 
                                     <div class="custom-control custom-radio">
                                         <input id="Un-Married" type="radio" class="custom-control-input" name="Martial" formControlName="Martial" value="Un-Married">
-                                        <label class="custom-control-label" for="female">Un-Married</label>
+                                        <label class="custom-control-label" for="Un-Married">Un-Married</label>
                                     </div>
                                 </div>
                             </div>
@@ -149,35 +196,46 @@
                             </div>
 
 
-                            <!-- Email -->
-                            <!-- <div class="mb-3">
-                                <label [ngClass]="{'error': submitted && myForm.email.errors}">Email</label>
-                                <input type="email" class="form-control" formControlName="email" (input)="user.email">
 
-                                error block
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.required">
-                                    <sup>*</sup>Please enter your email
+                            <!-- Address -->
+                            <div class="group-gap" formGroupName="address">
+                                <h5 class="mb-3">Address</h5>
+                                <div class="mb-3">
+                                    <label [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">Street</label>
+                                    <input type="text" class="form-control" formControlName="street" [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">
+
+                                    <!-- error block -->
+                                    <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.street.errors?.required">
+                                        <sup>*</sup>Please enter your street
+                                    </div>
                                 </div>
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.email.errors?.pattern">
-                                    <sup>*</sup>Please enter valid email
+
+                                <div class="mb-3">
+                                    <label [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">City</label>
+                                    <input type="text" class="form-control" formControlName="city" [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">
+
+                                    <!-- error block -->
+                                    <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.city.errors?.required">
+                                        <sup>*</sup>Please enter your street
+                                    </div>
                                 </div>
-                            </div> -->
 
 
-                            <!-- Phone number -->
+                            </div>
+                            <!-- Pin Code -->
                             <div class="mb-3">
-                                <label [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">Phone Number</label>
-                                <input type="text" class="form-control" formControlName="phoneNumber" [ngClass]="{'error': submitted && myForm.phoneNumber.errors}">
+                                <label [ngClass]="{'error': submitted && myForm.pincode.errors}">Pin Code</label>
+                                <input type="text" class="form-control" formControlName="pincode" [ngClass]="{'error': submitted && myForm.pincode.errors}">
 
                                 <!-- error block -->
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.maxLength">
-                                    <sup>*</sup>Phone number must be 10 digit long
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.pincode.errors?.maxLength">
+                                    <sup>*</sup>Phone number must be 6 digit long
                                 </div>
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.required">
-                                    <sup>*</sup>Please enter your phone number
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.pincode.errors?.required">
+                                    <sup>*</sup>Please enter your pin code
                                 </div>
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.phoneNumber.errors?.pattern">
-                                    <sup>*</sup>Please enter valid phone number
+                                <div class="invalid-feedback" *ngIf="submitted && myForm.pincode.errors?.pattern">
+                                    <sup>*</sup>Please enter valid pin code
                                 </div>
                             </div>
 
@@ -199,11 +257,11 @@
                             </div>
 
                             <!-- Existing Member -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label [ngClass]="{'error': submitted && myForm.ExistingMember.errors}">
                                             Existing Membership in any</label>
                                 <input type="text" class="form-control" formControlName="ExistingMember" [ngClass]="{'error': submitted && myForm.ExistingMember.errors}">
-                                <!-- error block -->
+                                error block
                                 <div class="invalid-feedback" *ngIf="submitted && myForm.ExistingMember.errors?.required">
                                     <sup>*</sup>Enter your Existing Member
                                 </div>
@@ -213,54 +271,30 @@
                                 <div class="invalid-feedback" *ngIf="submitted && myForm.ExistingMember.errors?.pattern">
                                     <sup>*</sup>No special charcter allowed
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Membership Number -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label [ngClass]="{'error': submitted && myForm.membershipNo.errors}">Membership No.</label>
                                 <input type="text" class="form-control" formControlName="membershipNo" [ngClass]="{'error': submitted && myForm.membershipNo.errors}">
 
-                                <!-- error block -->
+                                error block
 
                                 <div class="invalid-feedback" *ngIf="submitted && myForm.membershipNo.errors?.required">
                                     <sup>*</sup>Please enter your Membership Number
                                 </div>
 
-                            </div>
+                            </div> -->
                         </div>
 
-                        <!-- Address -->
-                        <div class="group-gap" formGroupName="address">
-                            <h5 class="mb-3">Address</h5>
-                            <div class="mb-3">
-                                <label [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">Street</label>
-                                <input type="text" class="form-control" formControlName="street" [ngClass]="{'error': submitted && myForm.address.controls.street.errors}">
 
-                                <!-- error block -->
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.street.errors?.required">
-                                    <sup>*</sup>Please enter your street
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">City</label>
-                                <input type="text" class="form-control" formControlName="city" [ngClass]="{'error': submitted && myForm.address.controls.city.errors}">
-
-                                <!-- error block -->
-                                <div class="invalid-feedback" *ngIf="submitted && myForm.address.controls.city.errors?.required">
-                                    <sup>*</sup>Please enter your street
-                                </div>
-                            </div>
-
-
-                        </div>
 
 
 
                         <br>
 
                         <!-- Add Super Powers Dynamically-->
-                        <div class="group-gap" formArrayName="addDynamicElement">
+                        <div class="group-gap">
 
 
                             <!-- Submit Button -->

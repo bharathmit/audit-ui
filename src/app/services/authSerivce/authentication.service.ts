@@ -93,6 +93,13 @@ export class AuthenticationService {
         return this.http.post(this.baseUrl + 'user/list', user)
     }
 
+
+    // updateUsers
+    updateUser(user:any): Observable<any>{
+
+        return this.http.put(this.baseUrl + 'user',user);
+    }
+
     // Error Handling
 
     handleError(error: HttpErrorResponse) {

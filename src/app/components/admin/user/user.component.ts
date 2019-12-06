@@ -17,7 +17,8 @@ export class UserComponent implements OnInit {
     loading = false;
     user: User;
     edit: boolean= false;
-
+    searchText:string;
+    
     displayedColumns: string[] = ['userId', 'firstName', 'emailId', 'gstpNumber'];
     registrationForm:any
     constructor(
@@ -51,49 +52,35 @@ export class UserComponent implements OnInit {
 
     /*##################### Registration Form #####################*/
    this.registrationForm = this.fb.group({
-    file: [null],
-    fullName: this.fb.group({
-      firstName: ['', [Validators.required]],
-      // lastName: ['', [Validators.required]]
-    }),
+    photo: [null],
+    firstName: ['', [Validators.required, Validators.minLength(2)]],
+    lastName: ['', [Validators.required]],
     dob: ['', [Validators.required ]],
-    // email: [this.user.emailId],
-    guardian:['', [Validators.required ]],
-    
-    phoneNumber: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+    gender: ['male'],
+    Martial:['Married'],
+    gstpNumber:['', [Validators.required ]],
     address: this.fb.group({
       street: ['', [Validators.required]],
       city: ['', [Validators.required]],
-    //   cityName: ['', [Validators.required]]
+      
     }),
-    gender: ['male'],
+    pincode:['',[Validators.required,Validators.maxLength(6), Validators.pattern('^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$')]],
+    phoneNumber: ['', [Validators.required,  Validators.pattern('^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$')]],
+
+    email: ['', [Validators.required , Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+    // guardian:['', [Validators.required ]],
     qualification:['', [Validators.required ]],
-    ExistingMember:['', [Validators.required ]],
-    membershipNo:['', [Validators.required ]],
-    gstpNumber:['', [Validators.required ]],
-    Martial:['Married'],
-    addDynamicElement: this.fb.array([])
+    // ExistingMember:['', [Validators.required ]],
+    // membershipNo:['', [Validators.required ]],
   })  
 
     }
-    MatchPassword(abstractControl: AbstractControl) {
-        let password = abstractControl.get('password').value;
-        let confirmPassword = abstractControl.get('confirmPassword').value;
-         if (password != confirmPassword) {
-             abstractControl.get('confirmPassword').setErrors({
-               MatchPassword: true
-             })
-        } else {
-          return null
-        }
-      }
+   
 
       get myForm() {
         return this.registrationForm.controls;
       }
-      get addDynamicElement() {
-        return this.registrationForm.get('addDynamicElement') as FormArray
-      }
+      
       
 
   /*########################## File Upload ########################*/
@@ -104,15 +91,15 @@ export class UserComponent implements OnInit {
 
   uploadFile(event) {
     let reader = new FileReader(); // HTML5 FileReader API
-    let file = event.target.files[0];
+    let photo = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(photo);
 
       // When file uploads set it to file formcontrol
       reader.onload = () => {
         this.imageUrl = reader.result;
         this.registrationForm.patchValue({
-          file: reader.result
+          photo: reader.result
         });
         this.editFile = false;
         this.removeUpload = true;
@@ -129,21 +116,25 @@ export class UserComponent implements OnInit {
     this.editFile = true;
     this.removeUpload = false;
     this.registrationForm.patchValue({
-      file: [null]
+      photo: [null]
     });
   }  
 
   onSubmit() {
     this.submitted = true;
     if(!this.registrationForm.valid) {
-      alert('Please fill all the required fields to create a super hero!')
+      alert('Please fill all the required fields!')
       return false;
     } else {
       console.log(this.registrationForm.value)
+      this.authenticationService
     }
   }
 
-  editMode(){
+  updateProfile(){
+    this.edit = true;
+  }
+  addUser(){
     this.edit = true;
   }
   cancelEditMode(){
