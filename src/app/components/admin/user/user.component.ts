@@ -3,12 +3,17 @@ import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/authSerivce/authentication.service';
 import { FormBuilder,FormControl, FormArray, Validators, AbstractControl } from "@angular/forms";
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import { UserDetails } from 'src/app/models/userDeatils';
+import { LoaderService } from 'src/app/services/loaderService/loader.service';
+import { DatePipe } from '@angular/common';
+import { ErrorShowingService } from 'src/app/services/errorService/error-showing.service';
 
 
 @Component({
     selector: 'app-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css'],
+    providers:[ DatePipe ]
     
 })
 
@@ -16,22 +21,29 @@ export class UserComponent implements OnInit {
     submitted = false;
     loading = false;
     user: User;
-    edit: boolean= false;
+    updateProfileEdit: boolean= false;
+    addUserEdit:boolean =false;
     searchText:string;
-    
+    userDetails: UserDetails = new UserDetails();
     displayedColumns: string[] = ['userId', 'firstName', 'emailId', 'gstpNumber'];
-    registrationForm:any
+    registrationForm:any;
+    error:string;
+
     constructor(
         private authenticationService: AuthenticationService,
         public fb: FormBuilder,
-        private cd: ChangeDetectorRef) {
+        private cd: ChangeDetectorRef,
+        private loaderService: LoaderService,
+        private datePipe: DatePipe,
+        private errorService: ErrorShowingService
+               ) {
 
     }
 
     
 
     ngOnInit() {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 1);
 
         this.loading = true;
         this.authenticationService.currentUser.subscribe(x => this.user = x);
@@ -56,14 +68,10 @@ export class UserComponent implements OnInit {
     firstName: ['', [Validators.required, Validators.minLength(2)]],
     lastName: ['', [Validators.required]],
     dob: ['', [Validators.required ]],
-    gender: ['male'],
+    gender: ['Male'],
     Martial:['Married'],
     gstpNumber:['', [Validators.required ]],
-    address: this.fb.group({
-      street: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      
-    }),
+    address: ['', [Validators.required]],
     pincode:['',[Validators.required,Validators.maxLength(6), Validators.pattern('^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$')]],
     phoneNumber: ['', [Validators.required,  Validators.pattern('^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$')]],
 
@@ -120,25 +128,100 @@ export class UserComponent implements OnInit {
     });
   }  
 
-  onSubmit() {
+  onUpdateProfileSubmit() {
     this.submitted = true;
+    this.loaderService.show();
     if(!this.registrationForm.valid) {
-      alert('Please fill all the required fields!')
+      alert('Please fill all the required fields!');
+      this.loaderService.hide();
+
       return false;
+
     } else {
-      console.log(this.registrationForm.value)
-      this.authenticationService
+      this.loaderService.show();
+      this.userDetails.userId = this.user.user.userId;
+      this.userDetails.address = this.registrationForm.value.address;
+      
+      this.userDetails.dob = this.datePipe.transform(this.registrationForm.value.dob ,'dd-MM-yyyy');
+      this.userDetails.firstName = this.registrationForm.value.firstName;
+      this.userDetails.lastName = this.registrationForm.value.lastName;
+      this.userDetails.emailId = this.registrationForm.value.email;
+      this.userDetails.gender = this.registrationForm.value.gender;
+      this.userDetails.maritalStatus = this.registrationForm.value.Martial;
+      this.userDetails.gstpNumber = this.registrationForm.value.gstpNumber;
+      this.userDetails.mobile = this.registrationForm.value.phoneNumber;
+      this.userDetails.pinCode = this.registrationForm.value.pincode;
+      this.userDetails.qulification = this.registrationForm.value.qualification;
+      this.userDetails.status = "Active";
+      // console.log(JSON.stringify(this.userDetails));
+      this.authenticationService.updateUser(this.userDetails).subscribe(
+        (res) =>{
+          this.loaderService.hide();
+          window.location.reload();
+        },
+        (error)=>{
+          this.loaderService.hide();
+
+          console.log(error.error.message);
+          this.error = error.error.message;
+          this.errorService.modal(this.error);
+
+        }
+      )
     }
+  }
+  onAddUserSubmit(){
+    this.submitted = true;
+    this.loaderService.show();
+    if(!this.registrationForm.valid) {
+      alert('Please fill all the required fields!');
+      this.loaderService.hide();
+
+      return false;
+
+    } else {
+      this.loaderService.show();
+      this.userDetails.address = this.registrationForm.value.address;
+      this.userDetails.dob = this.datePipe.transform(this.registrationForm.value.dob ,'dd-MM-yyyy');
+      this.userDetails.firstName = this.registrationForm.value.firstName;
+      this.userDetails.lastName = this.registrationForm.value.lastName;
+      this.userDetails.emailId = this.registrationForm.value.email;
+      this.userDetails.gender = this.registrationForm.value.gender;
+      this.userDetails.maritalStatus = this.registrationForm.value.Martial;
+      this.userDetails.gstpNumber = this.registrationForm.value.gstpNumber;
+      this.userDetails.mobile = this.registrationForm.value.phoneNumber;
+      this.userDetails.pinCode = this.registrationForm.value.pincode;
+      this.userDetails.qulification = this.registrationForm.value.qualification;
+      this.userDetails.status = "Active";
+      // console.log(JSON.stringify(this.userDetails));
+      this.authenticationService.addUsers(this.userDetails).subscribe(
+        (res) =>{
+          this.loaderService.hide();
+          window.location.reload();
+        },
+        (error)=>{
+          this.loaderService.hide();
+
+          console.log(error.error.message);
+          this.error = error.error.message;
+          this.errorService.modal(this.error);
+
+        }
+      )
+    }
+    
   }
 
   updateProfile(){
-    this.edit = true;
+    this.updateProfileEdit = true;
   }
   addUser(){
-    this.edit = true;
+    this.addUserEdit = true;
   }
   cancelEditMode(){
-    this.edit = false;
+    this.updateProfileEdit = false;
+    this.addUserEdit = false;
+
     window.scrollTo(0, 1);
 
   }

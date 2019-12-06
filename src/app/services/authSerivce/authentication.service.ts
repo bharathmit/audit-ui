@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { isNullOrUndefined, error } from 'util';
 import { Login } from '../../models/login';
+import { UserDetails } from 'src/app/models/userDeatils';
 
 @Injectable({
     providedIn: 'root'
@@ -95,9 +96,15 @@ export class AuthenticationService {
 
 
     // updateUsers
-    updateUser(user:any): Observable<any>{
+    updateUser(userDetails:UserDetails): Observable<any>{
 
-        return this.http.put(this.baseUrl + 'user',user);
+
+        return this.http.put(this.baseUrl + 'user',userDetails);
+    }
+
+    // addUsers
+    addUsers(userDeatils:UserDetails):Observable<any>{
+        return this.http.post(this.baseUrl+"user",userDeatils);
     }
 
     // Error Handling
