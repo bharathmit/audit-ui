@@ -11,6 +11,11 @@
     margin-bottom: 48px;
 }
 
+td,
+mat-icon {
+    cursor: pointer;
+}
+
 table {
     width: 100%;
 }

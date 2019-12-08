@@ -1,0 +1,8 @@
+.container {
+    margin-bottom: 200px;
+    margin-top: 100px;
+}
+
+mat-icon {
+    cursor: pointer;
+}

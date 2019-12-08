@@ -1,0 +1,41 @@
+<ng-template #content let-modal>
+
+    <div class="modal-body ">
+        <h4 class="modal-body" id="modal-basic-title">Are you sure, Want to <b style="color: red;">Delete</b> the user?</h4>
+
+    </div>
+
+    <div class="modal-footer">
+        <button style="margin-right:120px;" ly-button raised bg="primary" (click)="modal.close()">cancel</button>
+        <button ly-button raised bg="warn" (click)="modal.close()" (click)="delUser()">Delete</button>
+
+    </div>
+
+</ng-template>
+<div class="container">
+    <mat-card class="mt-4">
+        <mat-card-header>
+            <mat-icon class="text-muted" tooltip="Delete the User" placement="top" show-delay="500">
+                <i class="fas fa-trash-alt" (click)="open(content)"></i>
+
+            </mat-icon>
+
+
+            <mat-card-title>User Details </mat-card-title>
+
+        </mat-card-header>
+        <hr>
+        <mat-card-content *ngIf="user">
+
+            Email id : <b>{{user.emailId}}</b>
+            <br> Firstname : <b>{{user.firstName}}</b>
+            <br> Lastname : <b>{{user.lastName}}</b>
+            <br> GST No. : <b>{{user.gstpNumber}}</b>
+            <br> Mobile No. : <b>{{user.mobile}}</b>
+            <br> Address : <b>{{user.address}}</b>
+            <br> Marital Status : <b>{{user.maritalStatus}}</b>
+            <br> Gender : <b>{{user.gender}}</b>
+        </mat-card-content>
+    </mat-card>
+</div>
+<br>

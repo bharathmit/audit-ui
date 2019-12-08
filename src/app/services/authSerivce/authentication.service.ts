@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpInterceptor, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpInterceptor, HttpEvent, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subject, throwError, observable } from 'rxjs';
 import { User } from '../../models/user';
 import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { isNullOrUndefined, error } from 'util';
 import { Login } from '../../models/login';
-import { UserDetails } from 'src/app/models/userDeatils';
+import { UserDetails } from 'src/app/models/userDetails';
+import { AddUser } from 'src/app/models/addUser';
+import { DelUser } from 'src/app/models/delUser';
 
 @Injectable({
     providedIn: 'root'
@@ -89,9 +91,16 @@ export class AuthenticationService {
 
     // listUsers
 
-    getUsers(user: Object): Observable<any> {
+    getUsers(user: User): Observable<any> {
 
         return this.http.post(this.baseUrl + 'user/list', user)
+    }
+
+     // getUsersByEmail
+
+     getUsersByEmail(emailId: Object): Observable<any> {
+
+        return this.http.post(this.baseUrl + 'user/list', emailId)
     }
 
 
@@ -103,8 +112,26 @@ export class AuthenticationService {
     }
 
     // addUsers
-    addUsers(userDeatils:UserDetails):Observable<any>{
-        return this.http.post(this.baseUrl+"user",userDeatils);
+    addUsers(addUserNew:AddUser):Observable<any>{
+        return this.http.post(this.baseUrl+"user",addUserNew);
+    }
+
+    //delUsers
+
+    delUsers(delUsers: DelUser): Observable<any>{
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            body: {
+                emailId: delUsers.emailId,
+                firstName: delUsers.firstName,
+                mobile: delUsers.mobile,
+                gstpNumber: delUsers.gstpNumber
+            },
+          };
+          
+        return this.http.delete(this.baseUrl+'user/delete',options);
     }
 
     // Error Handling

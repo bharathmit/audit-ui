@@ -17,7 +17,7 @@
                         </div>
 
                         <div class="text-muted">
-                            <label (click)="forgot()">Forgot password?</label>
+                            <label (click)="forgot()" style="cursor: pointer;">Forgot password?</label>
                         </div><br>
                         <button *ngIf="emailId.valid && password.valid" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" data-toggle="tooltip" data-placement="top" title="Tooltip on top" (click)="signin()">submit</button>
                         <button *ngIf="!emailId.valid || !password.valid" class="btn btn-lg btn-primary btn-block text-uppercase disabled" data-toggle="tooltip" data-placement="top" title="Tooltip on top">submit</button>

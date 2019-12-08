@@ -25,7 +25,13 @@
                     <h6>Users from secure api end point</h6>
 
                     Email id : <b>{{user.user.emailId}}</b>
-                    <br> User name : <b>{{user.user.firstName}}</b>
+                    <br> Firstname : <b>{{user.user.firstName}}</b>
+                    <br> Lastname : <b>{{user.user.lastName}}</b>
+                    <br> GST No. : <b>{{user.user.gstpNumber}}</b>
+                    <br> Mobile No. : <b>{{user.user.mobile}}</b>
+                    <br> Address : <b>{{user.user.address}}</b>
+                    <br> Marital Status : <b>{{user.user.maritalStatus}}</b>
+                    <br> Gender : <b>{{user.user.gender}}</b>
                 </mat-card-content>
 
             </mat-card><br>
@@ -291,7 +297,7 @@
                             <!-- Submit Button -->
                             <button type="submit" style="float: left;" class="btn btn-secondary btn-lg  text-uppercase" (click)="cancelEditMode()">cancel</button>
 
-                            <button type="submit" style="float: right;" class="btn btn-primary btn-lg  text-uppercase" (click)="onUpdateProfileSubmit()">Submit</button>
+                            <button type="submit" style="float: right;" class="btn btn-primary btn-lg  text-uppercase" (click)="onUpdateProfileSubmit()">Update</button>
 
                         </div>
 
@@ -559,7 +565,7 @@
                             <!-- Submit Button -->
                             <button type="submit" style="float: left;" class="btn btn-secondary btn-lg  text-uppercase" (click)="cancelEditMode()">cancel</button>
 
-                            <!-- <button type="submit" style="float: right;" class="btn btn-primary btn-lg  text-uppercase" (click)="onAddUserSubmit()">Submit</button> -->
+                            <button type="submit" style="float: right;" class="btn btn-primary btn-lg  text-uppercase" (click)="onAddUserSubmit()">Add</button>
 
                         </div>
 
@@ -591,7 +597,7 @@
                             </tr>
                         </thead>
                         <tbody *ngFor="let element of displayedColumns  | filter : {userId:searchText, firstName:searchText, emailId:searchText, gstpNumber:searchText}: false">
-                            <tr>
+                            <tr routerLink="/user/{{element.emailId}}">
                                 <th scope="row">{{element.userId}}</th>
                                 <td>{{element.firstName}}</td>
                                 <td>{{element.emailId}}</td>

@@ -3,10 +3,11 @@ import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/authSerivce/authentication.service';
 import { FormBuilder,FormControl, FormArray, Validators, AbstractControl } from "@angular/forms";
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import { UserDetails } from 'src/app/models/userDeatils';
+import { UserDetails } from 'src/app/models/userDetails';
 import { LoaderService } from 'src/app/services/loaderService/loader.service';
 import { DatePipe } from '@angular/common';
 import { ErrorShowingService } from 'src/app/services/errorService/error-showing.service';
+import { AddUser } from 'src/app/models/addUser';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class UserComponent implements OnInit {
     userDetails: UserDetails = new UserDetails();
     displayedColumns: string[] = ['userId', 'firstName', 'emailId', 'gstpNumber'];
     registrationForm:any;
-    error:string;
+    error:string = "ERROR";
+    addUserNew: AddUser = new AddUser();
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -181,20 +183,21 @@ export class UserComponent implements OnInit {
 
     } else {
       this.loaderService.show();
-      this.userDetails.address = this.registrationForm.value.address;
-      this.userDetails.dob = this.datePipe.transform(this.registrationForm.value.dob ,'dd-MM-yyyy');
-      this.userDetails.firstName = this.registrationForm.value.firstName;
-      this.userDetails.lastName = this.registrationForm.value.lastName;
-      this.userDetails.emailId = this.registrationForm.value.email;
-      this.userDetails.gender = this.registrationForm.value.gender;
-      this.userDetails.maritalStatus = this.registrationForm.value.Martial;
-      this.userDetails.gstpNumber = this.registrationForm.value.gstpNumber;
-      this.userDetails.mobile = this.registrationForm.value.phoneNumber;
-      this.userDetails.pinCode = this.registrationForm.value.pincode;
-      this.userDetails.qulification = this.registrationForm.value.qualification;
-      this.userDetails.status = "Active";
-      // console.log(JSON.stringify(this.userDetails));
-      this.authenticationService.addUsers(this.userDetails).subscribe(
+      this.addUserNew.address = this.registrationForm.value.address;
+      this.addUserNew.dob = this.datePipe.transform(this.registrationForm.value.dob ,'dd-MM-yyyy');
+      this.addUserNew.firstName = this.registrationForm.value.firstName;
+      this.addUserNew.lastName = this.registrationForm.value.lastName;
+      this.addUserNew.emailId = this.registrationForm.value.email;
+      this.addUserNew.gender = this.registrationForm.value.gender;
+      this.addUserNew.maritalStatus = this.registrationForm.value.Martial;
+      this.addUserNew.gstpNumber = this.registrationForm.value.gstpNumber;
+      this.addUserNew.mobile = this.registrationForm.value.phoneNumber;
+      this.addUserNew.pinCode = this.registrationForm.value.pincode;
+      this.addUserNew.qulification = this.registrationForm.value.qualification;
+      this.addUserNew.status = "InActive";
+      this.addUserNew.userId = 0;
+      console.log(JSON.stringify(this.addUserNew));
+      this.authenticationService.addUsers(this.addUserNew).subscribe(
         (res) =>{
           this.loaderService.hide();
           window.location.reload();

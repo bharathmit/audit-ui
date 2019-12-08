@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {  NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -19,7 +19,7 @@ import {
     MatTabsModule,
 } from '@angular/material';
 
-import {MatDialogModule,MAT_DIALOG_DATA,MatDialogTitle,MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogTitle, MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotComponent } from './components/admin/forgot/forgot.component';
@@ -32,10 +32,17 @@ import { FilterPipe } from './pipes/filterPipe/filter.pipe';
 import { MdePopoverModule } from '@material-extended/mde';
 // import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 // import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ErrorShowingComponent } from './components/error-showing/error-showing.component';
-// import { ErrorShowingService } from './services/errorService/error-showing.service';
-
+import { ClientsComponent } from './components/clients/clients.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ErrorShowingService } from './services/errorService/error-showing.service';
+import { LyThemeModule, LY_THEME } from '@alyle/ui';
+import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
+import { LyButtonModule } from '@alyle/ui/button';
+import { LyToolbarModule } from '@alyle/ui/toolbar';
+import { LyResizingCroppingImageModule } from '@alyle/ui/resizing-cropping-images';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -54,6 +61,9 @@ import { ErrorShowingComponent } from './components/error-showing/error-showing.
         LoaderComponent,
         FilterPipe,
         ErrorShowingComponent,
+        ClientsComponent,
+        PageNotFoundComponent,
+        
     ],
     imports: [
         BrowserModule,
@@ -76,14 +86,19 @@ import { ErrorShowingComponent } from './components/error-showing/error-showing.
         TooltipModule,
         MdePopoverModule,
         MatDatepickerModule,
-        MatTabsModule
+        MatTabsModule,
+        LyThemeModule.setTheme('minima-light'),
+        LyButtonModule,
+        LyToolbarModule,
+        LyResizingCroppingImageModule,
+        NgbModule
     ],
     entryComponents: [
-        ErrorShowingComponent ,LoginComponent
+        ErrorShowingComponent, LoginComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    providers: [ { provide: MatDialogTitle, useValue: {} }, { provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: [] },
-     ],
+    providers: [{ provide: MatDialogTitle, useValue: {} }, { provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: [] }, { provide: LY_THEME, useClass: MinimaLight, multi: true }, { provide: LY_THEME, useClass: MinimaDark, multi: true },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,6 +9,8 @@ import { RegisterComponent } from './components/admin/register/register.componen
 import { ForgotComponent } from './components/admin/forgot/forgot.component';
 import { PasswordCreateComponent } from './components/admin/password-create/password-create.component';
 import { UserComponent } from './components/admin/user/user.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -24,7 +26,9 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotComponent },
   { path: 'user', component: UserComponent },
   { path: 'account/confirm-account',  component: PasswordCreateComponent },
-  { path: 'account/confirm-password',  component: PasswordCreateComponent }  // { path: '*',}
+  { path: 'account/confirm-password',  component: PasswordCreateComponent } ,
+  { path: 'user/:emailId', component: ClientsComponent},
+  { path: '**', component: PageNotFoundComponent}
 
 
 ];
